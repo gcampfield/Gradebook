@@ -11,11 +11,7 @@ users_blueprint = Blueprint(
 )
 
 def new_user(name, email, password):
-    user = User(
-        name=name,
-        email=email.lower(),
-        password=bcrypt.generate_password_hash(password)
-    )
+    user = User(name, email.lower(), bcrypt.generate_password_hash(password))
     db.session.add(user)
     db.session.commit()
     return user
