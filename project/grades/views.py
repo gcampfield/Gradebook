@@ -24,9 +24,9 @@ def classview(class_id):
 @grades_blueprint.route('/new/grade/', methods=['POST'])
 @login_required
 def new_grade():
-    category_arg = request.args.get('category', type=int)
+    category_arg = request.values.get('category', type=int)
     if category_arg is None:
-        return jsonify(error='category must be an integer (id)')
+        return jsonify(error='must provide category field (int)')
     category = Grade_Category.query.filter_by(id=category_arg).first()
     if category is None:
         return jsonify(error='that category does not exist')
@@ -39,9 +39,9 @@ def new_grade():
     if category not in owned_categories:
         return jsonify(error='user does not own this category')
 
-    name = request.args.get('name', type=str)
-    score = request.args.get('score', type=float)
-    total = request.args.get('total', type=float)
+    name = request.values.get('name', type=str)
+    score = request.values.get('score', type=float)
+    total = request.values.get('total', type=float)
 
     if score is None:
         return jsonify(error='must provide score field')
@@ -55,33 +55,31 @@ def new_grade():
 @grades_blueprint.route('/new/category/', methods=['POST'])
 @login_required
 def new_category():
-    class_arg = request.args.get('class', type=int)
+    class_arg = request.values.get('class', type=int)
     if class_arg is None:
-        return jsonify(error='class must be an integer (id)')
+        return jsonify(error='must provide class field (int)')
     class_ = Class.query.filter_by(id=class_arg).first()
     if class_ is None:
         return jsonify(error='that class does not exist')
     if class_ not in current_user.classes:
         return jsonify(error='user does not own this class')
 
-    name = request.args.get('name', type=str)
-    weight = request.args.get('weight', 1.0, type=float)
-    points = request.args.get('points', 0.0, type=float)
-    total = request.args.get('total', 0.0, type=float)
+    name = request.values.get('name', type=str)
+    weight = request.values.get('weight', 1.0, type=float)
 
-    if name is None:
+    if name is None or name == "":
         return jsonify(error='must provide name field')
 
-    category = class_.add_category(name=name, weight=weight, points=points, total=total)
+    category = class_.add_category(name=name, weight=weight)
 
     return jsonify(error=None, category=category.serialize())
 
 @grades_blueprint.route('/new/class/', methods=['POST'])
 @login_required
 def new_class():
-    name = request.args.get('name', type=str)
+    name = request.values.get('name', type=str)
 
-    if name is None:
+    if name is None or name == "":
         return jsonify(error='must provide name field')
 
     class_ = current_user.add_class(name)

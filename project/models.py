@@ -54,8 +54,8 @@ class Class(db.Model):
         self.name = name
         self.user = user
 
-    def add_category(self, name, weight=1.0, points=0, total=0):
-        category = Grade_Category(name, weight, points, total, self)
+    def add_category(self, name, weight=1.0):
+        category = Grade_Category(name, weight, self)
         db.session.add(category)
         db.session.commit()
         return category
@@ -82,11 +82,11 @@ class Grade_Category(db.Model):
             'grades': [grade.serialize() for grade in self.grades]
         }
 
-    def __init__(self, name, weight=1.0, points=0, total=0, class_=None):
+    def __init__(self, name, weight=1.0, class_=None):
         self.name = name
         self.weight = weight
-        self.points = points
-        self.total = total
+        self.points = 0
+        self.total = 0
         self._class = class_
 
     def add_grade(self, score, total, name=None):
@@ -113,6 +113,8 @@ class Grade(db.Model):
             'id': self.id,
             'name': self.name,
             'category_id': self.category_id,
+            'category_points': self.category.points,
+            'category_total': self.category.total,
             'score': self.score,
             'total': self.total
         }
