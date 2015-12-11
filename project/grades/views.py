@@ -14,8 +14,8 @@ def dashboard():
 
 @grades_blueprint.route('/<int:class_id>/')
 @login_required
-def class_view_id(class_id):
-    my_class = Class.query.filter_by(user=current_user.id).filter_by(id=class_id).first()
+def classview(class_id):
+    my_class = Class.query.filter_by(user=current_user).filter_by(id=class_id).first()
     if my_class is None:
         flash('That class does not exist.')
         return redirect(url_for('grades.dashboard'))

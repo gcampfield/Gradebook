@@ -3,7 +3,7 @@ from project.users.views import new_user
 
 grant = User.query.filter_by(email="grant@gcampfield.com").first()
 if grant is None:
-    grant = new_user("Grant Campfield", "grant@gcampfield.com", "password")
+    grant = new_user("Grant", "Campfield", "grant@gcampfield.com", "password")
 db.session.add(grant)
 db.session.commit()
 

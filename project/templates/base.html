@@ -3,22 +3,39 @@
   <head>
     <title>Gradebook</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/master.css" charset="utf-8">
+    {% block css %}{% endblock %}
+    <!-- JS -->
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    {% block js %}{% endblock %}
   </head>
   <body>
+    <header>
+      {% if current_user.is_authenticated() %}
+      <a href="{{ url_for('grades.dashboard') }}">{{ current_user.firstname }}</a>
+      <a href="{{ url_for('users.logout') }}">Logout</a>
+      {% else %}
+      <a href="{{ url_for('users.login') }}">Login</a>
+      {% endif %}
+    </header>
 
     <div class="container">
-      <!-- messages -->
+      <div class="flashed_messaged">
       {% for message in get_flashed_messages() %}
-        {{ message }}
+        <p>{{ message }}</p>
       {% endfor %}
+      </div>
 
-      <!-- child template -->
-      {% block content %}{% endblock %}
+      <div class="main">
+        {% block content %}{% endblock %}
+      </div>
 
-      <!-- errors -->
       {% if error %}
-        <p class="error"><strong>Error:</strong> {{ error }}</p>
+      <p class="error"><strong>Error:</strong> {{ error }}</p>
       {% endif %}
     </div>
+    {% block scripts %}{% endblock %}
   </body>
 </html>

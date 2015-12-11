@@ -8,8 +8,13 @@ class LoginForm(Form):
     password = PasswordField('Password', validators=[DataRequired()])
 
 class RegisterForm(Form):
-    name = TextField(
-        'Username',
+    firstname = TextField(
+        'First',
+        validators=[DataRequired(), Length(min=3, max=25)]
+    )
+
+    lastname = TextField(
+        'Last',
         validators=[DataRequired(), Length(min=3, max=25)]
     )
 

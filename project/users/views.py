@@ -10,8 +10,9 @@ users_blueprint = Blueprint(
     template_folder='templates'
 )
 
-def new_user(name, email, password):
-    user = User(name, email.lower(), bcrypt.generate_password_hash(password))
+def new_user(firstname, lastname, email, password):
+    user = User(firstname, lastname, email.lower(),
+                bcrypt.generate_password_hash(password))
     db.session.add(user)
     db.session.commit()
     return user
@@ -55,7 +56,8 @@ def logout():
 def register():
     form = RegisterForm(request.form)
     if form.validate_on_submit():
-        user = new_user(form.name.data, form.email.data, form.password.data)
+        user = new_user(form.firstname.data, form.lastname.data,
+                        form.email.data, form.password.data)
         login_user(user)
         return redirect(url_for('home.home'))
     return render_template('register.html', form=form)
