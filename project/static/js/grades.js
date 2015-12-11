@@ -8,7 +8,7 @@ function make_total(points, total) {
   var text = '<p class="total"><b>Total:</b> POINTS/TOTAL = PERCENT%</p>';
   text = text.replace('POINTS', points);
   text = text.replace('TOTAL', total);
-  text = text.replace('PERCENT', (points/total).toFixed(2));
+  text = text.replace('PERCENT', (points/total*100).toFixed(2));
   return text;
 }
 
@@ -62,7 +62,19 @@ function add_grade(e) {
         flash(error);
       } else {
         var new_grade = $('<p></p>');
-        new_grade.html((data.grade.name ? data.grade.name + " | " : "") + parseFloat(data.grade.score) + "/" + parseFloat(data.grade.total));
+        var text = data.grade.name ? data.grade.name + " | " : "";
+        if ((data.grade.score + '').search(/\./) == -1) {
+          text += data.grade.score + '.0';
+        } else {
+          text += data.grade.score;
+        }
+        text += "/";
+        if ((data.grade.total + '').search(/\./) == -1) {
+          text += data.grade.total + '.0';
+        } else {
+          text += data.grade.total;
+        }
+        new_grade.html(text);
         new_grade.insertBefore(form);
 
         if (data.grade.category_total > 0) {

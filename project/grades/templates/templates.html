@@ -1,0 +1,24 @@
+<template class="class">
+  <div>
+    <h2><a href="{{ url_for('grades.classview', class_id=0) }}"></a></h2>
+    <form class="add-category">
+      <input type="hidden" name="class" value="">
+      <input type="text" name="name" placeholder="New Category">
+      <input type="text" name="weight" placeholder="1.0">
+      <input type="submit" value="Add Category">
+    </form>
+  </div>
+</template>
+
+<template class="category">
+  <div>
+    <h3></h3>
+    <form class="add-grade">
+      <input type="hidden" name="category" value="">
+      <input type="text" name="name" placeholder="New Grade">
+      <input type="text" name="score" placeholder="10">
+      <input type="text" name="total" placeholder="10">
+      <input type="submit" value="Add Grade">
+    </form>
+  </div>
+</template>

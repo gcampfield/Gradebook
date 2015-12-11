@@ -65,8 +65,8 @@ class Grade_Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     weight = db.Column(db.Float, nullable=False)
-    points = db.Column(db.Integer, nullable=False)
-    total = db.Column(db.Integer, nullable=False)
+    points = db.Column(db.Float, nullable=False)
+    total = db.Column(db.Float, nullable=False)
     class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
     _class = relationship('Class',
                           backref=db.backref('categories', lazy='dynamic'))
@@ -94,7 +94,6 @@ class Grade_Category(db.Model):
         self.points += score
         self.total += total
         db.session.add(grade)
-        # db.session.add(self)
         db.session.commit()
         return grade
 
