@@ -7,20 +7,14 @@ if grant is None:
 db.session.add(grant)
 db.session.commit()
 
-concepts = Class("21-127", grant)
-db.session.add(concepts)
-db.session.commit()
+concepts = grant.add_class("21-127")
 
-tests = Grade_Category("Tests", concepts, 1.0)
-db.session.add(tests)
-db.session.commit()
+tests = concepts.add_category("Tests")
 tests.add_grade(45, 50, "Midterm 1")
 tests.add_grade(48, 50, "Midterm 2")
 tests.add_grade(43, 50, "Midterm 3")
 
-homeworks = Grade_Category("Homework", concepts, 1.0)
-db.session.add(homeworks)
-db.session.commit()
+homeworks = concepts.add_category("Homework")
 homeworks.add_grade(35.0, 35)
 homeworks.add_grade(34.0, 35)
 homeworks.add_grade(32.5, 35)

@@ -8,7 +8,6 @@ class User(db.Model):
     name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String)
-    classes = relationship("Class")
 
     def __init__(self, name, email, password):
         self.name = name
@@ -27,52 +26,97 @@ class User(db.Model):
     def get_id(self):
         return unicode(self.id)
 
+    def add_class(self, name):
+        class_ = Class(name, self)
+        db.session.add(class_)
+        db.session.commit()
+        return class_
+
 class Class(db.Model):
     __tablename__ = "classes"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    user = db.Column(db.Integer, ForeignKey('users.id'))
-    categories = relationship("Grade_Category")
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = relationship("User",
+                        backref=db.backref('classes', lazy='dynamic'))
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'user_id': self.user_id,
+            'categories': [category.serialize() for category in self.categories]
+        }
 
     def __init__(self, name, user):
         self.name = name
-        self.user = user.id
+        self.user = user
+
+    def add_category(self, name, weight=1.0, points=0, total=0):
+        category = Grade_Category(name, weight, points, total, self)
+        db.session.add(category)
+        db.session.commit()
+        return category
 
 class Grade_Category(db.Model):
     __tablename__ = "categories"
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    _class = db.Column(db.Integer, ForeignKey('classes.id'))
-    weight = db.Column(db.Float)
-    points = db.Column(db.Integer)
-    total = db.Column(db.Integer)
-    grades = relationship("Grade")
+    name = db.Column(db.String, nullable=False)
+    weight = db.Column(db.Float, nullable=False)
+    points = db.Column(db.Integer, nullable=False)
+    total = db.Column(db.Integer, nullable=False)
+    class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
+    _class = relationship('Class',
+                          backref=db.backref('categories', lazy='dynamic'))
 
-    def __init__(self, name, _class, weight, points=0, total=0):
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'class_id': self.class_id,
+            'weight': self.weight,
+            'points': self.points,
+            'total': self.total,
+            'grades': [grade.serialize() for grade in self.grades]
+        }
+
+    def __init__(self, name, weight=1.0, points=0, total=0, class_=None):
         self.name = name
-        self._class = _class.id
         self.weight = weight
         self.points = points
         self.total = total
+        self._class = class_
 
     def add_grade(self, score, total, name=None):
-        grade = Grade(name, self, score, total)
-        db.session.add(grade)
+        grade = Grade(name, score, total, self)
         self.points += score
         self.total += total
-        db.session.add(self)
+        db.session.add(grade)
+        # db.session.add(self)
         db.session.commit()
+        return grade
 
 class Grade(db.Model):
     __tablename__ = "grades"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    category = db.Column(db.Integer, ForeignKey('categories.id'))
-    score = db.Column(db.Float)
-    total = db.Column(db.Float)
+    score = db.Column(db.Float, nullable=False)
+    total = db.Column(db.Float, nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
+    category = relationship('Grade_Category',
+                            backref=db.backref('grades', lazy='dynamic'))
 
-    def __init__(self, name, category, score, total):
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'category_id': self.category_id,
+            'score': self.score,
+            'total': self.total
+        }
+
+    def __init__(self, name, score, total, category):
         self.name = name
-        self.category = category.id
         self.score = score
         self.total = total
+        self.category = category

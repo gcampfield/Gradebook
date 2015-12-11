@@ -1,3 +1,3 @@
 from project import db
-db.create_all()
+db.drop_all()
 db.session.commit()

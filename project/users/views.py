@@ -25,19 +25,27 @@ def login():
     form = LoginForm(request.form)
     if request.method == 'POST':
         if form.validate_on_submit():
-            user = User.query.filter_by(email=form.email.data).first()
-            if user is None:
-                error = 'Invalid username or password.'
-            elif bcrypt.check_password_hash(user.password, form.password.data):
-                login_user(user)
-                flash('You were successfully logged in.')
-                next_url = request.args.get('next')
-                return redirect(next_url or url_for('home.home'))
-            else:
-                error = 'Invalid username or password.'
+            email = form.email.data
+            password = form.password.data
+        else:
+            email = request.args.get('email', type=str)
+            password = request.args.get('password', type=str)
+
+        user = User.query.filter_by(email=email).first()
+        if user is None:
+            error = 'Invalid username or password.'
+        elif bcrypt.check_password_hash(user.password, password):
+            login_user(user)
+            flash('You were successfully logged in.')
+            next_url = request.args.get('next')
+            return redirect(next_url or url_for('home.home'))
+        else:
+            error = 'Invalid username or password.'
+
     return render_template('login.html', form=form, error=error)
 
 @users_blueprint.route('/logout/')
+@login_required
 def logout():
     logout_user()
     flash('You were logged out.')

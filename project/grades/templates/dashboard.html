@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Dashboard</h1>
+
+{% for class in user.classes %}
+<div>
+  <h2>{{ class.name }}</h2>
+  {% for category in class.categories %}
+  <div>
+    <h3>{{ category.name }}</h3>
+    {% for grade in category.grades %}
+    <p>{% if grade.name %}{{ grade.name }} | {% endif %}{{ grade.score }}/{{ grade.total }}</p>
+    {% endfor %}
+    {% if category.total > 0 %}
+    <p><b>Total:</b> {{ category.points }}/{{ category.total }} = {{ '%0.2f' % (category.points / category.total * 100) }}%</p>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endfor %}
+
+{% endblock %}
