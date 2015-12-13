@@ -12,5 +12,4 @@ _mailinglist
 .cache/
 .idea/
 
-config.py
 prepros.cfg
