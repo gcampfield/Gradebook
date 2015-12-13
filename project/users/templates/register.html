@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 
+{% block js %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/loader.js') }}"></script>
+{% endblock %}
+
 {% block content %}
 <div class="register">
   <div class="box">
     <h2>Register</h2>
+
+    <div class="loader">
+      Logging you in...
+    </div>
 
     <form method="POST">
       {{ form.csrf_token }}

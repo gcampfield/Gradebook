@@ -262,9 +262,7 @@ header .right .dropdown:after {
 }
 
 .login form p .error, .register form p .error {
-  text-align: left;
   display: block;
-  margin-left: 85px;
   font-size: 10px;
 }
 
