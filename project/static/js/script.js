@@ -7,7 +7,8 @@ function updateFooter() {
 }
 
 $(document).ready(function() {
-  setTimeout(updateFooter, 0); // ? Doesn't work without setTimeout
+  // setTimeout(updateFooter, 0); // ? Doesn't work without setTimeout...?
+  updateFooter(); // ? Works now? Who knows.
   $(window).resize(updateFooter);
 
   $('.dropdown').click(function () {

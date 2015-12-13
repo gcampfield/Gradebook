@@ -29,7 +29,7 @@ class RegisterForm(Form):
     )
 
     confirm = PasswordField(
-        'Repeat password',
+        'Confirm',
         validators=[
             DataRequired(), EqualTo('password', message='Passwords must match.')
         ]

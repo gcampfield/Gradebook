@@ -1,7 +1,6 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: "Open Sans", "Helvetica", sans-serif;
 }
 
 body, html {
@@ -9,6 +8,7 @@ body, html {
   height: 100%;
   background: #2c3e50;
   color: #ecf0f1;
+  font-family: "Open Sans", "Helvetica", sans-serif;
 }
 
 .container {
@@ -59,10 +59,12 @@ header .right {
 
 header .right .login, header .right .register {
   display: inline-block;
-  width: 75px;
+  width: 100px;
   border-radius: 5px;
   text-align: center;
-  font-style: italic;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 14px;
   background: #ecf0f1;
   color: #27ae60;
 }
@@ -138,6 +140,85 @@ header .right .dropdown:after {
 
 .home p a {
   color: #2ecc71;
+}
+
+.login .box, .register .box {
+  max-width: 480px;
+  width: 50%;
+  margin: 25px auto;
+  background: #34495e;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.login h2, .register h2 {
+  margin: 10px 0;
+}
+
+.login form, .register form {
+  position: relative;
+  display: inline-block;
+  text-align: right;
+}
+
+.login form > p, .register form > p {
+  margin: 10px 0;
+}
+
+.login form > p .error, .register form > p .error {
+  text-align: left;
+  display: block;
+  margin-left: 85px;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #e74c3c;
+}
+
+.login form > p label, .register form > p label {
+  display: inline-block;
+  width: 75px;
+  text-align: right;
+  vertical-align: text-top;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.login form > p input, .register form > p input {
+  margin-left: 2px;
+  padding: 5px 5px 7px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  height: 26px;
+  width: 200px;
+  color: #2c3e50;
+  font-weight: bold;
+  font-family: "Open Sans", "Helvetica", sans-serif;
+}
+
+.login form > p input:focus, .register form > p input:focus {
+  padding-bottom: 5px;
+  border-bottom: 2px solid #2ecc71;
+}
+
+.login form > p input[type="password"], .register form > p input[type="password"] {
+  font-size: 24px;
+  line-height: 14px;
+}
+
+.login form button, .register form button {
+  display: inline-block;
+  padding: 5px 25px;
+  background: #27ae60;
+  border: none;
+  color: #ecf0f1;
+  border-radius: 2px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 footer {

@@ -1,20 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-        <h1>Login</h1>
-        
-        <form method="POST">
-          {{ form.csrf_token }}
-          {% for field in form if field.type != "CSRFTokenField" %}
-          <p>
-            {{ field.label }}: {{ field }}
-            {% if field.errors %}
-            {% for error in field.errors %}
-            <span>{{ error }}</span>
-            {% endfor %}
-            {% endif %}
-          </p>
-          {% endfor %}
-          <button type="submit">Sign In</button>
-        </form>
+<div class="login">
+  <div class="box">
+    <h2>Login</h2>
+
+    <form method="POST">
+      {{ form.csrf_token }}
+      {% for field in form if field.type != "CSRFTokenField" %}
+      <p class="{{ field.name }}">
+        {% if field.errors %}
+        {% for error in field.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
+        {% endif %}
+        {{ field.label }} {{ field }}
+      </p>
+      {% endfor %}
+      <button type="submit">Log In</button>
+    </form>
+  </div>
+</div>
 {% endblock %}

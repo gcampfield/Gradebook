@@ -3,6 +3,7 @@ $bg-color: #34495e;
 $accent-bg-color: #27ae60;
 $text-color: #ecf0f1;
 $accent-text-color: #2ecc71;
+$error-color: #e74c3c;
 $max-width: 960px;
 $font-face: "Open Sans", "Helvetica", sans-serif;
 $fancy: "Lobster", serif;
@@ -10,7 +11,6 @@ $fancy: "Lobster", serif;
 * {
   margin: 0;
   padding: 0;
-  font-family: $font-face;
 }
 
 body, html {
@@ -18,6 +18,7 @@ body, html {
   height: 100%;
   background: $dark-bg-color;
   color: $text-color;
+  font-family: $font-face;
 }
 
 .container {
@@ -62,10 +63,12 @@ header {
 
     .login, .register {
       display: inline-block;
-      width: 75px;
+      width: 100px;
       border-radius: 5px;
       text-align: center;
-      font-style: italic;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 14px;
       background: $text-color;
       color: $accent-bg-color;
     }
@@ -141,6 +144,87 @@ header {
 
     a {
       color: $accent-text-color;
+    }
+  }
+}
+
+.login, .register {
+  .box {
+    max-width: #{$max-width / 2};
+    width: 50%;
+    margin: 25px auto;
+    background: $bg-color;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  h2 {
+    margin: 10px 0;
+  }
+
+  form {
+    position: relative;
+    display: inline-block;
+    text-align: right;
+
+    > p {
+      margin: 10px 0;
+
+      .error {
+        text-align: left;
+        display: block;
+        margin-left: 85px;
+        font-size: 10px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: $error-color;
+      }
+
+      label {
+        display: inline-block;
+        width: 75px;
+        text-align: right;
+        vertical-align: text-top;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      input {
+        margin-left: 2px;
+        padding: 5px 5px 7px;
+        border: none;
+        outline: none;
+        font-size: 14px;
+        height: 26px;
+        width: 200px;
+        color: $dark-bg-color;
+        font-weight: bold;
+        font-family: $font-face;
+
+        &:focus {
+          padding-bottom: 5px;
+          border-bottom: 2px solid $accent-text-color;
+        }
+
+        &[type="password"] {
+          font-size: 24px;
+          line-height: 14px;
+        }
+      }
+    }
+
+    button {
+      display: inline-block;
+      padding: 5px 25px;
+      background: $accent-bg-color;
+      border: none;
+      color: $text-color;
+      border-radius: 2px;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 14px;
     }
   }
 }
