@@ -42,6 +42,77 @@ h1 {
   font-family: $fancy;
 }
 
+.loader:before,
+.loader:after,
+.loader {
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  animation-fill-mode: both;
+  animation: loading 1.8s infinite ease-in-out;
+}
+
+.loader {
+  display: none;
+  font-size: 10px;
+  margin: 50px auto 100px;
+  position: relative;
+  text-indent: -9999em;
+  transform: translateZ(0);
+  animation-delay: -0.16s;
+}
+
+.loader:before {
+  left: -20px;
+  animation-delay: -0.32s;
+}
+
+.loader:after {
+  left: 20px;
+}
+
+.loader:before,
+.loader:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+
+@keyframes loading {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em #2ecc71;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0 #2ecc71;
+  }
+}
+
+.messages {
+  position: absolute;
+  top: 0;
+  left: 0; right: 0;
+  z-index: 100;
+
+  p {
+    width: 90%;
+    max-width: #{$max-width * 2 / 3};
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    border: 2px solid $accent-text-color;
+    border-radius: 10px;
+    background: $bg-color;
+    margin: 3px auto;
+
+    &.error {
+      border: 2px solid $bg-color;
+      background: $error-color;
+    }
+  }
+}
+
 header {
   height: 60px;
   background: $accent-bg-color;
@@ -85,7 +156,7 @@ header {
       border-radius: 5px;
       transition: height .1s ease;
       cursor: pointer;
-      z-index: 100;
+      z-index: 10;
 
       span {
         margin-right: 40px;
@@ -168,7 +239,14 @@ header {
     display: inline-block;
     text-align: right;
 
-    > p {
+    .error {
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: $error-color;
+    }
+
+    p {
       margin: 10px 0;
 
       .error {
@@ -176,9 +254,6 @@ header {
         display: block;
         margin-left: 85px;
         font-size: 10px;
-        font-weight: bold;
-        text-transform: uppercase;
-        color: $error-color;
       }
 
       label {
@@ -241,5 +316,22 @@ footer {
     bottom: 0;
     left: 0;
     right: 0;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  header .right {
+    margin-top: 15px;
+    line-height: 30px;
+
+    .login, .register {
+      width: 70px;
+      border-radius: 5px;
+      font-size: 12px;
+    }
+  }
+
+  .home h1 {
+    font-size: 75px;
   }
 }

@@ -17,6 +17,15 @@
     {% block js %}{% endblock %}
   </head>
   <body>
+    <div class="messages">
+    {% for message in get_flashed_messages() %}
+      <p>{{ message }}</p>
+    {% endfor %}
+    {% if error %}
+      <p class="error"><strong>Error:</strong> {{ error }}</p>
+    {% endif %}
+    </div>
+
     <header>
       <div class="container">
         <h1><a href="{{ url_for('home.home') }}">Gradebook</a></h1>
@@ -36,20 +45,11 @@
     </header>
 
     <div class="container">
-      <div class="flashed_messaged">
-      {% for message in get_flashed_messages() %}
-        <p>{{ message }}</p>
-      {% endfor %}
-      </div>
-
       <div class="main">
         {% block content %}{% endblock %}
       </div>
-
-      {% if error %}
-      <p class="error"><strong>Error:</strong> {{ error }}</p>
-      {% endif %}
     </div>
+
     {% block scripts %}{% endblock %}
 
     <footer>

@@ -33,6 +33,94 @@ h1 {
   font-family: "Lobster", serif;
 }
 
+.loader:before,
+.loader:after,
+.loader {
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  -webkit-animation: loading 1.8s infinite ease-in-out;
+          animation: loading 1.8s infinite ease-in-out;
+}
+
+.loader {
+  display: none;
+  font-size: 10px;
+  margin: 50px auto 100px;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+  -webkit-animation-delay: -0.16s;
+          animation-delay: -0.16s;
+}
+
+.loader:before {
+  left: -20px;
+  -webkit-animation-delay: -0.32s;
+          animation-delay: -0.32s;
+}
+
+.loader:after {
+  left: 20px;
+}
+
+.loader:before,
+.loader:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+
+@-webkit-keyframes loading {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em #2ecc71;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0 #2ecc71;
+  }
+}
+
+@keyframes loading {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em #2ecc71;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0 #2ecc71;
+  }
+}
+
+.messages {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.messages p {
+  width: 90%;
+  max-width: 640px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  border: 2px solid #2ecc71;
+  border-radius: 10px;
+  background: #34495e;
+  margin: 3px auto;
+}
+
+.messages p.error {
+  border: 2px solid #34495e;
+  background: #e74c3c;
+}
+
 header {
   height: 60px;
   background: #27ae60;
@@ -82,7 +170,7 @@ header .right .dropdown {
   -webkit-transition: height 0.1s ease;
           transition: height 0.1s ease;
   cursor: pointer;
-  z-index: 100;
+  z-index: 10;
 }
 
 header .right .dropdown span {
@@ -162,21 +250,25 @@ header .right .dropdown:after {
   text-align: right;
 }
 
-.login form > p, .register form > p {
-  margin: 10px 0;
-}
-
-.login form > p .error, .register form > p .error {
-  text-align: left;
-  display: block;
-  margin-left: 85px;
-  font-size: 10px;
+.login form .error, .register form .error {
+  font-size: 12px;
   font-weight: bold;
   text-transform: uppercase;
   color: #e74c3c;
 }
 
-.login form > p label, .register form > p label {
+.login form p, .register form p {
+  margin: 10px 0;
+}
+
+.login form p .error, .register form p .error {
+  text-align: left;
+  display: block;
+  margin-left: 85px;
+  font-size: 10px;
+}
+
+.login form p label, .register form p label {
   display: inline-block;
   width: 75px;
   text-align: right;
@@ -186,7 +278,7 @@ header .right .dropdown:after {
   font-size: 14px;
 }
 
-.login form > p input, .register form > p input {
+.login form p input, .register form p input {
   margin-left: 2px;
   padding: 5px 5px 7px;
   border: none;
@@ -199,12 +291,12 @@ header .right .dropdown:after {
   font-family: "Open Sans", "Helvetica", sans-serif;
 }
 
-.login form > p input:focus, .register form > p input:focus {
+.login form p input:focus, .register form p input:focus {
   padding-bottom: 5px;
   border-bottom: 2px solid #2ecc71;
 }
 
-.login form > p input[type="password"], .register form > p input[type="password"] {
+.login form p input[type="password"], .register form p input[type="password"] {
   font-size: 24px;
   line-height: 14px;
 }
@@ -234,4 +326,19 @@ footer.fixed {
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+@media screen and (max-width: 500px) {
+  header .right {
+    margin-top: 15px;
+    line-height: 30px;
+  }
+  header .right .login, header .right .register {
+    width: 70px;
+    border-radius: 5px;
+    font-size: 12px;
+  }
+  .home h1 {
+    font-size: 75px;
+  }
 }

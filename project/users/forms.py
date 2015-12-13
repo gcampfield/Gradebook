@@ -1,26 +1,29 @@
 from flask_wtf import Form
 from wtforms import TextField, PasswordField
+from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 from project.models import User
 
 class LoginForm(Form):
-    email = TextField('Email', validators=[DataRequired()])
+    email = EmailField('Email', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
 
 class RegisterForm(Form):
     firstname = TextField(
         'First',
-        validators=[DataRequired(), Length(min=3, max=25)]
+        validators=[DataRequired(), Length(min=1, max=30)]
     )
 
     lastname = TextField(
         'Last',
-        validators=[DataRequired(), Length(min=3, max=25)]
+        validators=[DataRequired(), Length(min=1, max=30)]
     )
 
-    email = TextField(
+    email = EmailField(
         'Email',
-        validators=[DataRequired(), Email(message=None), Length(min=6, max=40)]
+        validators=[DataRequired(),
+                    Email(message="Please enter a valid email address"),
+                    Length(min=6, max=40)]
     )
 
     password = PasswordField(
@@ -41,7 +44,7 @@ class RegisterForm(Form):
 
         user = User.query.filter_by(email=self.email.data.lower()).first()
         if user:
-          self.email.errors.append('That email is already taken')
+          self.email.errors.append('That email is already taken.')
           return False
 
         return True
