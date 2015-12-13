@@ -58,6 +58,7 @@ header {
     right: 0;
     font-weight: bold;
     line-height: 40px;
+    user-select: none;
 
     .login, .register {
       display: inline-block;
@@ -70,6 +71,9 @@ header {
     }
 
     .dropdown {
+      position: absolute;
+      top: 0;
+      right: 0;
       width: 140px;
       height: 40px;
       text-align: right;
@@ -77,13 +81,15 @@ header {
       background: darken($accent-bg-color, 5%);
       border-radius: 5px;
       transition: height .1s ease;
+      cursor: pointer;
+      z-index: 100;
 
       span {
         margin-right: 40px;
       }
 
       a {
-        display: block;
+        display: none;
         width: calc(100% - 40px);
         height: 40px;
         display: none;

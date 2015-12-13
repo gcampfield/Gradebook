@@ -51,6 +51,10 @@ header .right {
   right: 0;
   font-weight: bold;
   line-height: 40px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 header .right .login, header .right .register {
@@ -64,6 +68,9 @@ header .right .login, header .right .register {
 }
 
 header .right .dropdown {
+  position: absolute;
+  top: 0;
+  right: 0;
   width: 140px;
   height: 40px;
   text-align: right;
@@ -72,6 +79,8 @@ header .right .dropdown {
   border-radius: 5px;
   -webkit-transition: height 0.1s ease;
           transition: height 0.1s ease;
+  cursor: pointer;
+  z-index: 100;
 }
 
 header .right .dropdown span {
@@ -79,7 +88,7 @@ header .right .dropdown span {
 }
 
 header .right .dropdown a {
-  display: block;
+  display: none;
   width: -webkit-calc(100% - 40px);
   width: calc(100% - 40px);
   height: 40px;
