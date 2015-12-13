@@ -1,0 +1,147 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", "Helvetica", sans-serif;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  background: #2c3e50;
+  color: #ecf0f1;
+}
+
+.container {
+  position: relative;
+  width: -webkit-calc(100% - 40px);
+  width: calc(100% - 40px);
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.fancy {
+  font-family: "Lobster", serif;
+}
+
+a {
+  font-family: inherit;
+  color: inherit;
+  text-decoration: none;
+}
+
+h1 {
+  font-family: "Lobster", serif;
+}
+
+header {
+  height: 60px;
+  background: #27ae60;
+}
+
+header h1 {
+  line-height: 60px;
+  font-style: italic;
+  position: absolute;
+  left: 0;
+}
+
+header .right {
+  margin-top: 10px;
+  position: absolute;
+  right: 0;
+  font-weight: bold;
+  line-height: 40px;
+}
+
+header .right .login, header .right .register {
+  display: inline-block;
+  width: 75px;
+  border-radius: 5px;
+  text-align: center;
+  font-style: italic;
+  background: #ecf0f1;
+  color: #27ae60;
+}
+
+header .right .dropdown {
+  width: 140px;
+  height: 40px;
+  text-align: right;
+  background: #27ae60;
+  background: #229955;
+  border-radius: 5px;
+  -webkit-transition: height 0.1s ease;
+          transition: height 0.1s ease;
+}
+
+header .right .dropdown span {
+  margin-right: 40px;
+}
+
+header .right .dropdown a {
+  display: block;
+  width: -webkit-calc(100% - 40px);
+  width: calc(100% - 40px);
+  height: 40px;
+  display: none;
+  padding-right: 40px;
+}
+
+header .right .dropdown.open {
+  height: 120px;
+}
+
+header .right .dropdown.open a {
+  display: block;
+}
+
+header .right .dropdown.open:after {
+  border-top: none;
+  border-bottom: 5px solid #ecf0f1;
+}
+
+header .right .dropdown:after {
+  margin-right: 10px;
+  margin-left: 5px;
+  content: "";
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #ecf0f1;
+  border-bottom: none;
+}
+
+.home h1 {
+  margin: 25px 0;
+  text-align: center;
+  font-size: 100px;
+}
+
+.home p {
+  font-size: 20px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.home p a {
+  color: #2ecc71;
+}
+
+footer {
+  height: 40px;
+  margin-top: 20px;
+  background: #34495e;
+  line-height: 40px;
+  font-size: 12px;
+}
+
+footer.fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}

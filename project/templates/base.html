@@ -3,22 +3,36 @@
   <head>
     <title>Gradebook</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="charset" content="utf-8">
+
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic|Lobster' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="/static/css/master.css" charset="utf-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/master.css') }}">
     {% block css %}{% endblock %}
     <!-- JS -->
-    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
     {% block js %}{% endblock %}
   </head>
   <body>
     <header>
-      {% if current_user.is_authenticated() %}
-      <a href="{{ url_for('grades.dashboard') }}">{{ current_user.firstname }}</a>
-      <a href="{{ url_for('users.logout') }}">Logout</a>
-      {% else %}
-      <a href="{{ url_for('users.login') }}">Login</a>
-      {% endif %}
+      <div class="container">
+        <h1><a href="{{ url_for('home.home') }}">Gradebook</a></h1>
+        <div class="right">
+          {% if current_user.is_authenticated() %}
+          <div class="dropdown">
+            <span>{{ current_user.firstname }}</span>
+            <a href="{{ url_for('grades.dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('users.logout') }}">Logout</a>
+          </div>
+          {% else %}
+          <a href="{{ url_for('users.login') }}" class="login">Login</a>
+          <a href="{{ url_for('users.register') }}" class="register"> Register</a>
+          {% endif %}
+        </div>
+      </div>
     </header>
 
     <div class="container">
@@ -37,5 +51,11 @@
       {% endif %}
     </div>
     {% block scripts %}{% endblock %}
+
+    <footer>
+      <div class="container">
+        <p>&copy; Grant Campfield - 2015</p>
+      </div>
+    </footer>
   </body>
 </html>

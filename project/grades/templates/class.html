@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-        <h2><a href="{{ url_for('grades.classview', class_id=class_.id) }}">{{ class_.name }}</a></h2>
+        <h3><a href="{{ url_for('grades.classview', class_id=class_.id) }}">{{ class_.name }}</a></h3>
 
         {% for category in class_.categories %}
         <div>
-          <h3>{{ category.name }}</h3>
+          <h4>{{ category.name }}</h4>
           {% for grade in category.grades %}
           <p>{% if grade.name %}{{ grade.name }} | {% endif %}{{ grade.score }}/{{ grade.total }}</p>
           {% endfor %}

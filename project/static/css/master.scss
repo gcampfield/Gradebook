@@ -1,0 +1,155 @@
+$dark-bg-color: #2c3e50;
+$bg-color: #34495e;
+$accent-bg-color: #27ae60;
+$text-color: #ecf0f1;
+$accent-text-color: #2ecc71;
+$max-width: 960px;
+$font-face: "Open Sans", "Helvetica", sans-serif;
+$fancy: "Lobster", serif;
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: $font-face;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  background: $dark-bg-color;
+  color: $text-color;
+}
+
+.container {
+  position: relative;
+  width: calc(100% - 40px);
+  max-width: $max-width;
+  margin: 0 auto;
+}
+
+.fancy {
+  font-family: $fancy;
+}
+
+a {
+  font-family: inherit;
+  color: inherit;
+  text-decoration: none;
+}
+
+h1 {
+  font-family: $fancy;
+}
+
+header {
+  height: 60px;
+  background: $accent-bg-color;
+
+  h1 {
+    line-height: 60px;
+    font-style: italic;
+    position: absolute;
+    left: 0;
+  }
+
+  .right {
+    margin-top: 10px;
+    position: absolute;
+    right: 0;
+    font-weight: bold;
+    line-height: 40px;
+
+    .login, .register {
+      display: inline-block;
+      width: 75px;
+      border-radius: 5px;
+      text-align: center;
+      font-style: italic;
+      background: $text-color;
+      color: $accent-bg-color;
+    }
+
+    .dropdown {
+      width: 140px;
+      height: 40px;
+      text-align: right;
+      background: $accent-bg-color;
+      background: darken($accent-bg-color, 5%);
+      border-radius: 5px;
+      transition: height .1s ease;
+
+      span {
+        margin-right: 40px;
+      }
+
+      a {
+        display: block;
+        width: calc(100% - 40px);
+        height: 40px;
+        display: none;
+        padding-right: 40px;
+      }
+
+      &.open {
+        height: 120px;
+
+        a {
+          display: block;
+        }
+
+        &:after {
+          border-top: none;
+          border-bottom: 5px solid $text-color;
+        }
+      }
+
+      &:after {
+        margin-right: 10px;
+        margin-left: 5px;
+        content: "";
+        position: absolute;
+        top: 20px;
+        right: 10px;
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid $text-color;
+        border-bottom: none;
+      }
+    }
+  }
+}
+
+.home {
+  h1 {
+    margin: 25px 0;
+    text-align: center;
+    font-size: 100px;
+  }
+
+  p {
+    font-size: 20px;
+    margin-top: 20px;
+    text-align: center;
+
+    a {
+      color: $accent-text-color;
+    }
+  }
+}
+
+footer {
+  height: 40px;
+  margin-top: 20px;
+  background: $bg-color;
+  line-height: 40px;
+  font-size: 12px;
+
+  &.fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}

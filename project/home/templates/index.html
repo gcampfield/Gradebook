@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-        <h1>Welcome to <em>Gradebook</em></h1>
+<div class="home">
+  <h1>Gradebook</h1>
+  <p>
+    <span class="fancy">Gradebook</span> is a web application designed by <a href="http://www.github.com/gcampfield/Gradebook/" target="_blank">Grant Campfield</a> to help people easily manage their grades when there may not be a system already built for them.
+  </p>
+  <p>
+    Please click <a href="{{ url_for('users.register') }}">register</a> or <a href="{{ url_for('users.login') }}">login</a> to get started.
+  </p>
+</div>
 {% endblock %}

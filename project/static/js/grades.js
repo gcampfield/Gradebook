@@ -4,11 +4,37 @@ function flash(message) { //*TODO
   console.log(message);
 }
 
+function clean(number) {
+  if ((number + '').search(/\./) == -1) {
+    return number + '.0';
+  }
+  return number + '';
+}
+
 function make_total(points, total) {
-  var text = '<p class="total"><b>Total:</b> POINTS/TOTAL = PERCENT%</p>';
+  var text;
+  if (total > 0) {
+    text = '<p class="total"><b>Total:</b> POINTS/TOTAL = PERCENT%</p>';
+    text = text.replace('PERCENT', (points/total*100).toFixed(2));
+  } else {
+    text = '<p class="total"><b>Total:</b> POINTS/TOTAL</p>'
+  }
   text = text.replace('POINTS', points);
   text = text.replace('TOTAL', total);
-  text = text.replace('PERCENT', (points/total*100).toFixed(2));
+  return text;
+}
+
+function make_total_class(points, total, grade) {
+  var text;
+  if (total > 0) {
+    text = '<p class="total"><b>Total:</b> POINTS/TOTAL = PERCENT% | GRADE</p>';
+    text = text.replace('PERCENT', (points/total*100).toFixed(2));
+  } else {
+    text = '<p class="total"><b>Total:</b> POINTS/TOTAL | GRADE</p>'
+  }
+  text = text.replace('POINTS', points);
+  text = text.replace('TOTAL', total);
+  text = text.replace('GRADE', grade);
   return text;
 }
 
@@ -17,12 +43,15 @@ function add_class(e) {
   $.post(window.location.origin + '/grades/new/class/', form.serialize(),
     function (data) {
       if (data.error) {
-        flash(error);
+        flash(data.error);
       } else {
         var new_class = $('<div/>').html(class_template).contents();
-        new_class.find('h2 a').attr('href', '/grades/' + data.class_.id + '/');
-        new_class.find('h2 a').text(data.class_.name);
+        new_class.find('h3 a').attr('href', '/grades/' + data.class_.id + '/');
+        new_class.find('h3 a').text(data.class_.name);
         new_class.find('input[name="class"]').val(data.class_.id);
+        new_class.find('.total').html(make_total_class(data.class_.points,
+                                                       data.class_.total,
+                                                       data.class_.grade));
         new_class.insertBefore(form);
         $('.add-category').submit(add_category);
       }
@@ -38,10 +67,10 @@ function add_category(e) {
   $.post(window.location.origin + '/grades/new/category/', form.serialize(),
     function (data) {
       if (data.error) {
-        flash(error);
+        flash(data.error);
       } else {
         var new_category = $('<div/>').html(category_template).contents();
-        new_category.find('h3').text(data.category.name);
+        new_category.find('h4').text(data.category.name);
         new_category.find('input[name="category"]').val(data.category.id);
         new_category.insertBefore(form);
         $('.add-grade').submit(add_grade);
@@ -55,25 +84,16 @@ function add_category(e) {
 
 function add_grade(e) {
   var form = $(this),
-      category = form.parent();
+      category = form.parent(),
+      class_ = category.parent();
   $.post(window.location.origin + '/grades/new/grade/', form.serialize(),
     function (data) {
       if (data.error) {
-        flash(error);
+        flash(data.error);
       } else {
         var new_grade = $('<p></p>');
         var text = data.grade.name ? data.grade.name + " | " : "";
-        if ((data.grade.score + '').search(/\./) == -1) {
-          text += data.grade.score + '.0';
-        } else {
-          text += data.grade.score;
-        }
-        text += "/";
-        if ((data.grade.total + '').search(/\./) == -1) {
-          text += data.grade.total + '.0';
-        } else {
-          text += data.grade.total;
-        }
+        text += clean(data.grade.score) + "/" + clean(data.grade.total);
         new_grade.html(text);
         new_grade.insertBefore(form);
 
@@ -86,6 +106,11 @@ function add_grade(e) {
             category.append($(total));
           }
         }
+
+        class_.find('.total').last().html(
+          make_total_class(data.grade.class_points,
+                           data.grade.class_total,
+                           data.grade.class_grade));
       }
     }
   );

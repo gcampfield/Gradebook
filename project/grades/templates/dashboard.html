@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-        <h1>Dashboard</h1>
+        <h2>Dashboard</h2>
 
         <div class="classes">
           {% for class in user.classes %}
           <div>
-            <h2><a href="{{ url_for('grades.classview', class_id=class.id) }}">{{ class.name }}</a></h2>
+            <h3><a href="{{ url_for('grades.classview', class_id=class.id) }}">{{ class.name }}</a></h3>
             {% for category in class.categories %}
             <div>
-              <h3>{{ category.name }}</h3>
+              <h4>{{ category.name }}</h4>
               {% for grade in category.grades %}
               <p>{% if grade.name %}{{ grade.name }} | {% endif %}{{ grade.score }}/{{ grade.total }}</p>
               {% endfor %}
@@ -31,6 +31,11 @@
               <input type="text" name="weight" placeholder="1.0">
               <input type="submit" value="Add Category">
             </form>
+            {% if class.total > 0 %}
+            <p class="total"><b>Total:</b> {{ class.points }}/{{ class.total }} = {{ '%0.2f' % (class.points / class.total * 100) }}% | {{ class.grade }}</p>
+            {% else %}
+            <p class="total"><b>Total:</b> {{ class.points }}/{{ class.total }} | {{ class.grade }}</p>
+            {% endif %}
           </div>
           {% endfor %}
         </div>

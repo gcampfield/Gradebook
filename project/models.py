@@ -38,6 +38,9 @@ class Class(db.Model):
     __tablename__ = "classes"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
+    grade = db.Column(db.String, nullable=False)
+    points = db.Column(db.Float, nullable=False)
+    total = db.Column(db.Float, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = relationship("User",
                         backref=db.backref('classes', lazy='dynamic'))
@@ -46,6 +49,9 @@ class Class(db.Model):
         return {
             'id': self.id,
             'name': self.name,
+            'grade': self.grade,
+            'points': self.points,
+            'total': self.total,
             'user_id': self.user_id,
             'categories': [category.serialize() for category in self.categories]
         }
@@ -53,6 +59,32 @@ class Class(db.Model):
     def __init__(self, name, user):
         self.name = name
         self.user = user
+        self.points = 0
+        self.total = 0
+        self.grade = 'N/A'
+
+    def update_grade(self):
+        sum_weights = sum([cat.weight for cat in self.categories])
+        points = 0
+        total = 0
+        for category in self.categories:
+            if category.total > 0:
+                points += category.points / category.total * category.weight
+                total += category.weight
+        self.points = points
+        self.total = total
+        if (total <= 0):
+            self.grade = 'N/A'
+        elif (points/total > .895):
+            self.grade = 'A'
+        elif (points/total > .795):
+            self.grade = 'B'
+        elif (points/total > .695):
+            self.grade = 'C'
+        elif (points/total > .595):
+            self.grade = 'D'
+        else:
+            self.grade = 'F'
 
     def add_category(self, name, weight=1.0):
         category = Grade_Category(name, weight, self)
@@ -93,6 +125,7 @@ class Grade_Category(db.Model):
         grade = Grade(name, score, total, self)
         self.points += score
         self.total += total
+        self._class.update_grade()
         db.session.add(grade)
         db.session.commit()
         return grade
@@ -111,6 +144,9 @@ class Grade(db.Model):
         return {
             'id': self.id,
             'name': self.name,
+            'class_points': self.category._class.points,
+            'class_total': self.category._class.total,
+            'class_grade': self.category._class.grade,
             'category_id': self.category_id,
             'category_points': self.category.points,
             'category_total': self.category.total,
