@@ -85,3 +85,18 @@ def new_class():
     class_ = current_user.add_class(name)
 
     return jsonify(error=None, class_=class_.serialize())
+
+@grades_blueprint.route('/delete/grade/', methods=['POST'])
+@login_required
+def delete_grade():
+    return jsonify(error='feature not implemented yet')
+
+@grades_blueprint.route('/delete/category/', methods=['POST'])
+@login_required
+def delete_category():
+    return jsonify(error='feature not implemented yet')
+
+@grades_blueprint.route('/delete/class/', methods=['POST'])
+@login_required
+def delete_class():
+    return jsonify(error='feature not implemented yet')
