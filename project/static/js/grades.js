@@ -119,6 +119,45 @@ function add_grade(e) {
   return false;
 }
 
+function delete_class() {
+  var button = $(this);
+  $.post(window.location.origin + '/grades/delete/class/',
+    {'class': button.attr('id')}, function (data) {
+      if (data.error) {
+        flash(data.error);
+      } else {
+        button.parent().remove();
+      }
+    }
+  );
+}
+
+function delete_category() {
+  var button = $(this);
+  $.post(window.location.origin + '/grades/delete/category/',
+    {'category': button.attr('id')}, function (data) {
+      if (data.error) {
+        flash(data.error);
+      } else {
+        button.parent().remove();
+      }
+    }
+  );
+}
+
+function delete_grade() {
+  var button = $(this);
+  $.post(window.location.origin + '/grades/delete/grade/',
+    {'grade': button.attr('id')}, function (data) {
+      if (data.error) {
+        flash(data.error);
+      } else {
+        button.parent().remove();
+      }
+    }
+  );
+}
+
 $(document).ready(function () {
   class_template = $('template.class').html();
   category_template = $('template.category').html();
@@ -126,4 +165,8 @@ $(document).ready(function () {
   $('.add-class').submit(add_class);
   $('.add-category').submit(add_category);
   $('.add-grade').submit(add_grade);
+
+  $('.delete-class').click(delete_class);
+  $('.delete-category').click(delete_category);
+  $('.delete-grade').click(delete_grade);
 });

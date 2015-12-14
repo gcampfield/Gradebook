@@ -1,6 +1,7 @@
 <template class="class">
   <div>
     <h3><a href="{{ url_for('grades.classview', class_id=0) }}"></a></h3>
+    <button class="delete-class" id="">Delete</button>
     <form class="add-category">
       <input type="hidden" name="class" value="">
       <input type="text" name="name" placeholder="New Category">
@@ -14,6 +15,7 @@
 <template class="category">
   <div>
     <h4></h4>
+    <button class="delete-category" id="">Delete</button>
     <form class="add-grade">
       <input type="hidden" name="category" value="">
       <input type="text" name="name" placeholder="New Grade">

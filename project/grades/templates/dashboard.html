@@ -7,11 +7,13 @@
           {% for class in user.classes %}
           <div>
             <h3><a href="{{ url_for('grades.classview', class_id=class.id) }}">{{ class.name }}</a></h3>
+            <button class="delete-class" id="{{ class.id }}">Delete</button>
             {% for category in class.categories %}
             <div>
               <h4>{{ category.name }}</h4>
+              <button class="delete-category" id="{{ category.id }}">Delete</button>
               {% for grade in category.grades %}
-              <p>{% if grade.name %}{{ grade.name }} | {% endif %}{{ grade.score }}/{{ grade.total }}</p>
+              <p>{% if grade.name %}{{ grade.name }} | {% endif %}{{ grade.score }}/{{ grade.total }} | <button class="delete-grade" id="{{ grade.id }}">Delete</button></p>
               {% endfor %}
               <form class="add-grade">
                 <input type="hidden" name="category" value="{{ category.id }}">

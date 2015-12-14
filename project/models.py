@@ -92,6 +92,12 @@ class Class(db.Model):
         db.session.commit()
         return category
 
+    def delete(self):
+        for category in self.categories:
+            category.delete()
+        db.session.delete(self)
+        db.session.commit()
+
 class Grade_Category(db.Model):
     __tablename__ = "categories"
     id = db.Column(db.Integer, primary_key=True)
@@ -130,6 +136,14 @@ class Grade_Category(db.Model):
         db.session.commit()
         return grade
 
+    def delete(self):
+        class_ = self._class
+        for grade in self.grades:
+            grade.delete()
+        db.session.delete(self)
+        db.session.commit()
+        class_.update_grade()
+
 class Grade(db.Model):
     __tablename__ = "grades"
     id = db.Column(db.Integer, primary_key=True)
@@ -159,3 +173,9 @@ class Grade(db.Model):
         self.score = score
         self.total = total
         self.category = category
+
+    def delete(self):
+        self.category.points -= self.score
+        self.category.total -= self.total
+        db.session.delete(self)
+        db.session.commit()

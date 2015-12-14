@@ -15,7 +15,7 @@ def dashboard():
 @grades_blueprint.route('/<int:class_id>/')
 @login_required
 def classview(class_id):
-    my_class = Class.query.filter_by(user=current_user).filter_by(id=class_id).first()
+    my_class = Class.query.filter_by(user=current_user, id=class_id).first()
     if my_class is None:
         flash('That class does not exist.')
         return redirect(url_for('grades.dashboard'))
@@ -31,12 +31,7 @@ def new_grade():
     if category is None:
         return jsonify(error='that category does not exist')
 
-    owned_categories = []
-    for class_ in current_user.classes:
-        for cat in class_.categories:
-            owned_categories.append(cat)
-
-    if category not in owned_categories:
+    if category._class.user.id is not current_user.id:
         return jsonify(error='user does not own this category')
 
     name = request.values.get('name', type=str)
@@ -61,7 +56,7 @@ def new_category():
     class_ = Class.query.filter_by(id=class_arg).first()
     if class_ is None:
         return jsonify(error='that class does not exist')
-    if class_ not in current_user.classes:
+    if class_.user.id is not current_user.id:
         return jsonify(error='user does not own this class')
 
     name = request.values.get('name', type=str)
@@ -89,14 +84,50 @@ def new_class():
 @grades_blueprint.route('/delete/grade/', methods=['POST'])
 @login_required
 def delete_grade():
-    return jsonify(error='feature not implemented yet')
+    grade_id = request.values.get('grade', type=int)
+    if grade_id is None:
+        return jsonify(error='must provide grade field (int)')
+
+    grade = Grade.query.filter_by(id=grade_id).first()
+    if grade is None:
+        return jsonify(error='that grade does not exist')
+    if grade.category._class.user.id is not current_user.id:
+        return jsonify(error='user does not own this grade')
+
+    grade.delete()
+
+    return jsonify(error=None, )
 
 @grades_blueprint.route('/delete/category/', methods=['POST'])
 @login_required
 def delete_category():
-    return jsonify(error='feature not implemented yet')
+    category_id = request.values.get('category', type=int)
+    if category_id is None:
+        return jsonify(error='must provide category field (int)')
+
+    category = Grade_Category.query.filter_by(id=category_id).first()
+    if category is None:
+        return jsonify(error='that grade does not exist')
+    if category._class.user.id is not current_user.id:
+        return jsonify(error='user does not own this category')
+
+    category.delete()
+
+    return jsonify(error=None)
 
 @grades_blueprint.route('/delete/class/', methods=['POST'])
 @login_required
 def delete_class():
-    return jsonify(error='feature not implemented yet')
+    class_id = request.values.get('class', type=int)
+    if class_id is None:
+        return jsonify(error='must provide class field (int)')
+
+    class_ = Class.query.filter_by(id=class_id).first()
+    if class_ is None:
+        return jsonify(error='that grade does not exist')
+    if class_.user.id is not current_user.id:
+        return jsonify(error='user does not own this class')
+
+    class_.delete()
+
+    return jsonify(error=None)
