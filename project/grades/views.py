@@ -94,9 +94,9 @@ def delete_grade():
     if grade.category._class.user.id is not current_user.id:
         return jsonify(error='user does not own this grade')
 
-    grade.delete()
+    category = grade.delete()
 
-    return jsonify(error=None, )
+    return jsonify(error=None, category=category.serialize())
 
 @grades_blueprint.route('/delete/category/', methods=['POST'])
 @login_required
@@ -111,9 +111,9 @@ def delete_category():
     if category._class.user.id is not current_user.id:
         return jsonify(error='user does not own this category')
 
-    category.delete()
+    class_ = category.delete()
 
-    return jsonify(error=None)
+    return jsonify(error=None, class_=class_.serialize())
 
 @grades_blueprint.route('/delete/class/', methods=['POST'])
 @login_required

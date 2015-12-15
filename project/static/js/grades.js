@@ -48,12 +48,14 @@ function add_class(e) {
         var new_class = $('<div/>').html(class_template).contents();
         new_class.find('h3 a').attr('href', '/grades/' + data.class_.id + '/');
         new_class.find('h3 a').text(data.class_.name);
+        new_class.find('.delete-class').attr('id', data.class_.id);
         new_class.find('input[name="class"]').val(data.class_.id);
         new_class.find('.total').html(make_total_class(data.class_.points,
                                                        data.class_.total,
                                                        data.class_.grade));
         new_class.insertBefore(form);
         $('.add-category').submit(add_category);
+        $('.delete-class').click(delete_class);
       }
     }
   );
@@ -71,9 +73,11 @@ function add_category(e) {
       } else {
         var new_category = $('<div/>').html(category_template).contents();
         new_category.find('h4').text(data.category.name);
+        new_category.find('.delete-category').attr('id', data.category.id);
         new_category.find('input[name="category"]').val(data.category.id);
         new_category.insertBefore(form);
         $('.add-grade').submit(add_grade);
+        $('.delete-category').click(delete_category);
       }
     }
   );
@@ -94,8 +98,12 @@ function add_grade(e) {
         var new_grade = $('<p></p>');
         var text = data.grade.name ? data.grade.name + " | " : "";
         text += clean(data.grade.score) + "/" + clean(data.grade.total);
+        text += '<button class="delete-grade" id="'
+        text += data.grade.id
+        text += '">Delete</button>';
         new_grade.html(text);
         new_grade.insertBefore(form);
+        $('.delete-grade').click(delete_grade);
 
         if (data.grade.category_total > 0) {
           var total = make_total(data.grade.category_points,
@@ -134,12 +142,17 @@ function delete_class() {
 
 function delete_category() {
   var button = $(this);
+  var class_ = button.parent().parent();
   $.post(window.location.origin + '/grades/delete/category/',
     {'category': button.attr('id')}, function (data) {
       if (data.error) {
         flash(data.error);
       } else {
         button.parent().remove();
+        class_.find('.total').last().html(
+          make_total_class(data.class_.points,
+                           data.class_.total,
+                           data.class_.grade));
       }
     }
   );
@@ -147,12 +160,19 @@ function delete_category() {
 
 function delete_grade() {
   var button = $(this);
+  var category = button.parent().parent();
   $.post(window.location.origin + '/grades/delete/grade/',
     {'grade': button.attr('id')}, function (data) {
       if (data.error) {
         flash(data.error);
       } else {
         button.parent().remove();
+        if (data.category.total > 0) {
+          var total = make_total(data.category.points, data.category.total);
+          category.find('.total').html(total);
+        } else {
+          category.find('.total').remove();
+        }
       }
     }
   );

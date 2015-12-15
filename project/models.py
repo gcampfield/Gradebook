@@ -143,6 +143,7 @@ class Grade_Category(db.Model):
         db.session.delete(self)
         db.session.commit()
         class_.update_grade()
+        return class_
 
 class Grade(db.Model):
     __tablename__ = "grades"
@@ -175,7 +176,10 @@ class Grade(db.Model):
         self.category = category
 
     def delete(self):
+        category = self.category
         self.category.points -= self.score
         self.category.total -= self.total
+        self.category._class.update_grade()
         db.session.delete(self)
         db.session.commit()
+        return category
