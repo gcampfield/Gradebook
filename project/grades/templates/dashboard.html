@@ -4,7 +4,7 @@
         <h2>Dashboard</h2>
 
         <div class="classes">
-          {% for class in user.classes %}
+          {% for class in current_user.classes %}
           <div>
             <h3><a href="{{ url_for('grades.classview', class_id=class.id) }}">{{ class.name }}</a></h3>
             <button class="delete-class" id="{{ class.id }}">Delete</button>

@@ -10,7 +10,7 @@ grades_blueprint = Blueprint(
 @grades_blueprint.route('/')
 @login_required
 def dashboard():
-    return render_template('dashboard.html', user=current_user)
+    return render_template('dashboard.html')
 
 @grades_blueprint.route('/<int:class_id>/')
 @login_required
