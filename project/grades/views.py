@@ -107,7 +107,7 @@ def delete_category():
 
     category = Grade_Category.query.filter_by(id=category_id).first()
     if category is None:
-        return jsonify(error='that grade does not exist')
+        return jsonify(error='that category does not exist')
     if category._class.user.id is not current_user.id:
         return jsonify(error='user does not own this category')
 
@@ -124,7 +124,7 @@ def delete_class():
 
     class_ = Class.query.filter_by(id=class_id).first()
     if class_ is None:
-        return jsonify(error='that grade does not exist')
+        return jsonify(error='that class does not exist')
     if class_.user.id is not current_user.id:
         return jsonify(error='user does not own this class')
 

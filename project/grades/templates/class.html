@@ -3,30 +3,39 @@
 {% block content %}
         <h3><a href="{{ url_for('grades.classview', class_id=class_.id) }}">{{ class_.name }}</a></h3>
 
-        {% for category in class_.categories %}
-        <div>
-          <h4>{{ category.name }}</h4>
-          {% for grade in category.grades %}
-          <p>{% if grade.name %}{{ grade.name }} | {% endif %}{{ grade.score }}/{{ grade.total }}</p>
+        <div class="class">
+          <button class="delete-class redirect-dashboard" id="{{ class_.id }}">Delete</button>
+          {% for category in class_.categories %}
+          <div>
+            <h4>{{ category.name }}</h4>
+            <button class="delete-category" id="{{ category.id }}">Delete</button>
+            {% for grade in category.grades %}
+            <p>{% if grade.name %}{{ grade.name }} | {% endif %}{{ grade.score }}/{{ grade.total }} | <button class="delete-grade" id="{{ grade.id }}">Delete</button></p>
+            {% endfor %}
+            <form class="add-grade">
+              <input type="hidden" name="category" value="{{ category.id }}">
+              <input type="text" name="name" placeholder="New Grade">
+              <input type="text" name="score" placeholder="10">
+              <input type="text" name="total" placeholder="10">
+              <input type="submit" value="Add Grade">
+            </form>
+            {% if category.total > 0 %}
+            <p class="total"><b>Total:</b> {{ category.points }}/{{ category.total }} = {{ '%0.2f' % (category.points / category.total * 100) }}%</p>
+            {% endif %}
+          </div>
           {% endfor %}
-          <form class="add-grade">
-            <input type="hidden" name="category" value="{{ category.id }}">
-            <input type="text" name="name" placeholder="New Grade">
-            <input type="text" name="score" placeholder="10">
-            <input type="text" name="total" placeholder="10">
-            <input type="submit" value="Add Grade">
+          <form class="add-category">
+            <input type="hidden" name="class" value="{{ class_.id }}">
+            <input type="text" name="name" placeholder="New Category">
+            <input type="text" name="weight" placeholder="1.0">
+            <input type="submit" value="Add Category">
           </form>
-          {% if category.total > 0 %}
-          <p class="total"><b>Total:</b> {{ category.points }}/{{ category.total }} = {{ '%0.2f' % (category.points / category.total * 100) }}%</p>
+          {% if class_.total > 0 %}
+          <p class="total"><b>Total:</b> {{ class_.points }}/{{ class_.total }} = {{ '%0.2f' % (class_.points / class_.total * 100) }}% | {{ class_.grade }}</p>
+          {% else %}
+          <p class="total"><b>Total:</b> {{ class_.points }}/{{ class_.total }} | {{ class_.grade }}</p>
           {% endif %}
         </div>
-        {% endfor %}
-        <form class="add-category">
-          <input type="hidden" name="class" value="{{ class_.id }}">
-          <input type="text" name="name" placeholder="New Category">
-          <input type="text" name="weight" placeholder="1.0">
-          <input type="submit" value="Add Category">
-        </form>
 
         {% include "templates.html" %}
 {% endblock %}

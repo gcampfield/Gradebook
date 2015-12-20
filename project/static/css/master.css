@@ -16,7 +16,12 @@ body, html {
   width: -webkit-calc(100% - 40px);
   width: calc(100% - 40px);
   max-width: 960px;
+  min-width: 400px;
   margin: 0 auto;
+}
+
+.clearfix {
+  display: table-cell;
 }
 
 .fancy {
@@ -268,7 +273,6 @@ header .right .dropdown:after {
 
 .login form p label, .register form p label {
   display: inline-block;
-  width: 75px;
   text-align: right;
   vertical-align: text-top;
   text-transform: uppercase;
@@ -324,6 +328,96 @@ footer.fixed {
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+.dashboard button, .class button {
+  cursor: pointer;
+}
+
+.dashboard h2, .class h2 {
+  margin: 20px 0;
+  font-size: 36px;
+}
+
+.dashboard .class, .class .class {
+  width: -webkit-calc(45% - 10px);
+  width: calc(45% - 10px);
+  margin: 20px 0 0;
+  padding: 20px;
+  background: #34495e;
+  border-radius: 10px;
+  float: left;
+}
+
+.dashboard .class:nth-of-type(2n+1), .class .class:nth-of-type(2n+1) {
+  margin-right: 20px;
+}
+
+.dashboard .title, .class .title {
+  margin: 0 0 10px;
+}
+
+.dashboard h3, .class h3 {
+  font-size: 24px;
+  text-transform: uppercase;
+  display: inline-block;
+  color: #2ecc71;
+}
+
+.dashboard h4, .class h4 {
+  font-size: 18px;
+  height: 24px;
+  display: inline-block;
+}
+
+.dashboard .delete, .class .delete {
+  margin-left: 10px;
+  margin-bottom: 2px;
+  vertical-align: bottom;
+  background: #e74c3c;
+  color: #ecf0f1;
+  border: none;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 2px;
+  -webkit-transition: all 0.2s ease;
+          transition: all 0.2s ease;
+}
+
+.dashboard .delete:hover, .class .delete:hover {
+  background: #ecf0f1;
+  color: #e74c3c;
+}
+
+.dashboard .delete-class, .class .delete-class {
+  font-size: 12px;
+  padding: 5px 10px;
+}
+
+.dashboard .delete-category, .class .delete-category {
+  font-size: 10px;
+  padding: 4px 10px;
+}
+
+.dashboard .delete-grade, .class .delete-grade {
+  font-size: 10px;
+  padding: 4px 10px;
+}
+
+.dashboard table, .class table {
+  width: 100%;
+  text-align: center;
+}
+
+.dashboard input, .class input {
+  display: none !important;
+}
+
+@media screen and (max-width: 850px) {
+  .dashboard .class, .class .class {
+    width: -webkit-calc(100% - 40px);
+    width: calc(100% - 40px);
+  }
 }
 
 @media screen and (max-width: 500px) {

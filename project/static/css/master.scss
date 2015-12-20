@@ -5,6 +5,7 @@ $text-color: #ecf0f1;
 $accent-text-color: #2ecc71;
 $error-color: #e74c3c;
 $max-width: 960px;
+$min-width: 400px;
 $font-face: "Open Sans", "Helvetica", sans-serif;
 $fancy: "Lobster", serif;
 
@@ -25,7 +26,12 @@ body, html {
   position: relative;
   width: calc(100% - 40px);
   max-width: $max-width;
+  min-width: $min-width;
   margin: 0 auto;
+}
+
+.clearfix {
+  display: table-cell;
 }
 
 .fancy {
@@ -256,7 +262,6 @@ header {
 
       label {
         display: inline-block;
-        width: 75px;
         text-align: right;
         vertical-align: text-top;
         text-transform: uppercase;
@@ -314,6 +319,97 @@ footer {
     bottom: 0;
     left: 0;
     right: 0;
+  }
+}
+
+.dashboard, .class {
+  button {
+    cursor: pointer;
+  }
+
+  h2 {
+    margin: 20px 0;
+    font-size: 36px;
+  }
+
+  .class {
+    width: calc(45% - 10px);
+    margin: 20px 0 0;
+    padding: 20px;
+    background: $bg-color;
+    border-radius: 10px;
+    float: left;
+
+    &:nth-of-type(2n+1) {
+      margin-right: 20px;
+    }
+  }
+
+  .title {
+    margin: 0 0 10px;
+  }
+
+  h3 {
+    font-size: 24px;
+    text-transform: uppercase;
+    display: inline-block;
+    color: $accent-text-color;
+  }
+
+  h4 {
+    font-size: 18px;
+    height: 24px;
+    display: inline-block;
+  }
+
+  .delete {
+    margin-left: 10px;
+    margin-bottom: 2px;
+    vertical-align: bottom;
+    background: $error-color;
+    color: $text-color;
+    border: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: all .2s ease;
+
+    &:hover {
+      background: $text-color;
+      color: $error-color;
+    }
+  }
+
+  .delete-class {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  .delete-category {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  .delete-grade {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  table {
+    width: 100%;
+    text-align: center;
+  }
+
+  input {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .dashboard, .class {
+    .class {
+      width: calc(100% - 40px);
+    }
   }
 }
 

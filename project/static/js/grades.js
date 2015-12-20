@@ -54,13 +54,14 @@ function add_class(e) {
                                                        data.class_.total,
                                                        data.class_.grade));
         new_class.insertBefore(form);
-        $('.add-category').submit(add_category);
-        $('.delete-class').click(delete_class);
+        new_class.find('.add-category').submit(add_category);
+        new_class.find('.delete-class').click(delete_class);
       }
     }
   );
 
   form.children('input[type="text"]').val('');
+  setTimeout(updateFooter, 10);
   return false;
 }
 
@@ -76,13 +77,14 @@ function add_category(e) {
         new_category.find('.delete-category').attr('id', data.category.id);
         new_category.find('input[name="category"]').val(data.category.id);
         new_category.insertBefore(form);
-        $('.add-grade').submit(add_grade);
-        $('.delete-category').click(delete_category);
+        new_category.find('.add-grade').submit(add_grade);
+        new_category.find('.delete-category').click(delete_category);
       }
     }
   );
 
   form.children('input[type="text"]').val('');
+  setTimeout(updateFooter, 10);
   return false;
 }
 
@@ -103,7 +105,7 @@ function add_grade(e) {
         text += '">Delete</button>';
         new_grade.html(text);
         new_grade.insertBefore(form);
-        $('.delete-grade').click(delete_grade);
+        new_grade.find('.delete-grade').click(delete_grade);
 
         if (data.grade.category_total > 0) {
           var total = make_total(data.grade.category_points,
@@ -124,6 +126,7 @@ function add_grade(e) {
   );
 
   form.children('input[type="text"]').val('');
+  setTimeout(updateFooter, 10);
   return false;
 }
 
@@ -132,12 +135,19 @@ function delete_class() {
   $.post(window.location.origin + '/grades/delete/class/',
     {'class': button.attr('id')}, function (data) {
       if (data.error) {
+        console.log(id);
         flash(data.error);
       } else {
-        button.parent().remove();
+        if (button.hasClass('redirect-dashboard')) {
+          window.location.href = window.location.origin + '/grades/';
+        } else {
+          button.parent().parent().remove();
+        }
       }
     }
   );
+
+  setTimeout(updateFooter, 10);
 }
 
 function delete_category() {
@@ -156,6 +166,8 @@ function delete_category() {
       }
     }
   );
+
+  setTimeout(updateFooter, 10);
 }
 
 function delete_grade() {
@@ -176,6 +188,8 @@ function delete_grade() {
       }
     }
   );
+
+  setTimeout(updateFooter, 10);
 }
 
 $(document).ready(function () {

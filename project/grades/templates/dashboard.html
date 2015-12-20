@@ -1,20 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-        <h2>Dashboard</h2>
+        <div class="dashboard clearfix">
+          <h2>Dashboard</h2>
 
-        <div class="classes">
           {% for class in current_user.classes %}
-          <div>
-            <h3><a href="{{ url_for('grades.classview', class_id=class.id) }}">{{ class.name }}</a></h3>
-            <button class="delete-class" id="{{ class.id }}">Delete</button>
+          <div class="class">
+            <div class="title">
+              <h3><a href="{{ url_for('grades.classview', class_id=class.id) }}">{{ class.name }}</a></h3>
+              <button class="delete delete-class" id="{{ class.id }}">Delete</button>
+            </div>
             {% for category in class.categories %}
             <div>
               <h4>{{ category.name }}</h4>
-              <button class="delete-category" id="{{ category.id }}">Delete</button>
+              <button class="delete delete-category" id="{{ category.id }}">Delete</button>
+              <table>
+                <tr>
+                  <th>Assignment</th>
+                  <th>Score</th>
+                  <th>Total</th>
+                  <th>Percent</th>
+                </tr>
               {% for grade in category.grades %}
-              <p>{% if grade.name %}{{ grade.name }} | {% endif %}{{ grade.score }}/{{ grade.total }} | <button class="delete-grade" id="{{ grade.id }}">Delete</button></p>
+              <tr>
+                <td>{% if grade.name %}{{ grade.name }}{% else %}--{% endif %}</td>
+                <td>{{ grade.score }}</td>
+                <td>{{ grade.total }}</td>
+                <td>{% if grade.total > 0 %}{{ grade.score / grade.total * 100 }}%{% else %}--{% endif %}</td>
+              </tr>
+              <!-- <p>{% if grade.name %}{{ grade.name }} | {% endif %}{{ grade.score }}/{{ grade.total }} | <button class="delete delete-grade" id="{{ grade.id }}">Delete</button></p> -->
               {% endfor %}
+            </table>
               <form class="add-grade">
                 <input type="hidden" name="category" value="{{ category.id }}">
                 <input type="text" name="name" placeholder="New Grade">
