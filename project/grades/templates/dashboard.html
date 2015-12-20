@@ -28,7 +28,6 @@
                 <td>{{ grade.total }}</td>
                 <td>{% if grade.total > 0 %}{{ grade.score / grade.total * 100 }}%{% else %}--{% endif %}</td>
               </tr>
-              <!-- <p>{% if grade.name %}{{ grade.name }} | {% endif %}{{ grade.score }}/{{ grade.total }} | <button class="delete delete-grade" id="{{ grade.id }}">Delete</button></p> -->
               {% endfor %}
             </table>
               <form class="add-grade">
